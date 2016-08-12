@@ -51,6 +51,14 @@ class AttachOne extends MorphOneBase
                 $this->add($value);
             });
         }
+        /*
+         * Or maybe not a file at all?
+         */
+        elseif (is_scalar($value)){
+            $this->parent->bindEventOnce('model.afterSave', function() use ($value) {
+                $this->create(['data' => $value]);
+            });
+        }
     }
 
     /**
